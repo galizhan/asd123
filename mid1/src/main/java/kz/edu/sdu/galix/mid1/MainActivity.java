@@ -17,14 +17,7 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     public final static String BROADCAST_ACTION = "sdu.android.mid1";
-    final String LOG_TAG = "myLogs";
-    BroadcastReceiver br;
-    boolean bound = false;
-    ServiceConnection sConn;
-    Intent intent;
-    MyService myService;
-    TextView tvInterval;
-    int interval;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,15 +25,6 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentManager manager = getSupportFragmentManager();
         Fragment fragment = manager.findFragmentById(R.id.fl);
-        br = new BroadcastReceiver() {
-            // действия при получении сообщений
-            public void onReceive(Context context, Intent intent) {
-
-                Log.d("so","13" +
-                        "");
-            }
-
-        };
         if (fragment == null) {
             fragment = new Fragment1();
             FragmentTransaction transaction = manager.beginTransaction();

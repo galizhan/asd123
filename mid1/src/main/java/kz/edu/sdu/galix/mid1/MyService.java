@@ -16,6 +16,7 @@ public class MyService extends Service {
     }
     int interval=1000;
     ExecutorService es;
+    String pause="";
     MyBinder binder = new MyBinder();
     @Override
     public void onCreate() {
@@ -41,19 +42,27 @@ public class MyService extends Service {
 
         public void run() {
             Intent intent = new Intent(MainActivity.BROADCAST_ACTION);
-            intent.putExtra("request","Hello");
             NotificationCompat.Builder mBuilder =
                             new NotificationCompat.Builder(MyService.this)
                                     .setSmallIcon(android.R.drawable.presence_audio_away)
                                     .setContentTitle("My notification")
-                                    .setContentText("Hello World!");
+                                    .setContentText("Hello World!")
+                                    .setSmallIcon(android.R.drawable.alert_light_frame);
                     NotificationManager manager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-                    manager.notify(0,mBuilder.build());
+
             for(int i=0;i<1000;i++){
                 Log.d("service",""+i);
                 Log.d("service",""+interval);
                 intent.putExtra("t",i);
                 sendBroadcast(intent);
+                if (pause !=null && pause.equals("pause")){
+                    mBuilder.setProgress(1000, i, false);
+                    manager.notify(0,mBuilder.build());
+                }
+                if (pause.equals("resume")){
+                    manager.cancel(0);
+                }
+
                 try {
                     Thread.sleep(interval);
                 } catch (InterruptedException e) {
@@ -77,6 +86,10 @@ public class MyService extends Service {
         if (interval < 0) interval = 0;
         return interval;
     }
+    public void change_pause(String s){
+        pause = s;
+    }
+
 
     public IBinder onBind(Intent arg0) {
         return binder;

@@ -24,7 +24,19 @@ import android.widget.TextView;
  */
 public class Fragment2 extends Fragment {
 
+    @Override
+    public void onStart() {
+        super.onStart();
 
+    }
+    int count = 0;
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(count>=1) myService.change_pause("resume");
+        count++;
+        Log.d("resume","resume");
+    }
     public Fragment2() {
         // Required empty public constructor
     }
@@ -39,6 +51,8 @@ public class Fragment2 extends Fragment {
     BroadcastReceiver br;
     int interval,t;
     ProgressBar pb;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -87,12 +101,23 @@ public class Fragment2 extends Fragment {
             public void onReceive(Context context, Intent intent) {
                 t = intent.getIntExtra("t",10);
                 pb.setProgress(t);
-                Log.d("so",""+t);
+
             }
 
         };
         getActivity().registerReceiver(br, filter);
         return view;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        myService.change_pause("pause");
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(br);
     }
 
     @Override
@@ -102,6 +127,8 @@ public class Fragment2 extends Fragment {
         getActivity().unbindService(sConn);
         bound = false;
     }
+
+
 
 
 }
