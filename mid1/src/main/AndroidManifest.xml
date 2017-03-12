@@ -18,8 +18,14 @@
 
         <service
             android:name=".MyService"
-            android:enabled="true"
-            android:exported="true"></service>
+            android:enabled="true">
+            <intent-filter>
+                <action
+                    android:name="Galizhan">
+
+                </action>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

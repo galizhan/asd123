@@ -34,7 +34,7 @@ public class Fragment2 extends Fragment {
     final String LOG_TAG = "myLogs";
     boolean bound = false;
     ServiceConnection sConn;
-    Intent intent;
+    Intent intent1;
     MyService myService;
     BroadcastReceiver br;
     int interval,t;
@@ -45,10 +45,10 @@ public class Fragment2 extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_2, container, false);
         IntentFilter filter = new IntentFilter(MainActivity.BROADCAST_ACTION);
-        getActivity().registerReceiver(br, filter);
+
         btn1 = (Button)view.findViewById(R.id.up);
         btn2 = (Button)view.findViewById(R.id.down);
-        intent = new Intent(getActivity(), MyService.class);
+        intent1 = new Intent(getActivity(), MyService.class);
         pb = (ProgressBar)view.findViewById(R.id.progressBar);
         pb.setMax(1000);
         btn1.setOnClickListener(new View.OnClickListener() {
@@ -78,20 +78,20 @@ public class Fragment2 extends Fragment {
                 bound = false;
             }
         };
-        getActivity().startService(intent);
-        getActivity().bindService(intent, sConn, 0);
+        getActivity().startService(intent1);
+        getActivity().bindService(intent1, sConn, 0);
 
 
         br = new BroadcastReceiver() {
             // действия при получении сообщений
             public void onReceive(Context context, Intent intent) {
-                t = intent.getIntExtra("t",0);
+                t = intent.getIntExtra("t",10);
                 pb.setProgress(t);
                 Log.d("so",""+t);
             }
 
         };
-
+        getActivity().registerReceiver(br, filter);
         return view;
     }
 

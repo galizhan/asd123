@@ -54,7 +54,6 @@ public class MyService extends Service {
                 Log.d("service",""+interval);
                 intent.putExtra("t",i);
                 sendBroadcast(intent);
-                
                 try {
                     Thread.sleep(interval);
                 } catch (InterruptedException e) {
